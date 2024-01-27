@@ -1,4 +1,6 @@
+#include <Arduino.h>
 #include <Servo.h>
+#include <inttypes.h>
 
 /*SETUP*/
 #define PREPARE_TIME 3000     // Delay after start ms
