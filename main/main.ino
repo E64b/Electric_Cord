@@ -26,8 +26,11 @@ float voltage = 0;
 void setup() {
   pinMode(SENSOR_PIN, INPUT);
   PID.attach(ENG_PIN, 1000, 2000);
+  PID.write(10);
+  delay(5000);
   PID.write(curThrottle);
   Serial.begin(9600);
+  delay(5000);
 }
 
 void loop() {
