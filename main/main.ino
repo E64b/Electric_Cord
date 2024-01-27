@@ -9,7 +9,7 @@
 #define MAX_RPM 90            // Max rpm 0-100%
 #define SENSOR_PIN A1         // RPM sensor pin
 #define ENG_PIN 9             // Engine pin
-#define IDLE_SPEED 10         // min rpm
+#define IDLE_SPEED 10         // Min rpm
 #define IDLE_SPEED_TIME 10000 // ms
 
 Servo PID;
@@ -33,13 +33,13 @@ void setup() {
 void loop() {
   voltage = (float)(analogRead(SENSOR_PIN) * 5.0) / 1024;
 
-  if (voltage < 0.5) {
+  if (voltage < 0.05) {
     Serial.print("Voltage = ");
     Serial.println(voltage);
     delay(50);
   }
 
-  if (voltage > 0.5 && delayStart) {
+  if (voltage > 0.05 && delayStart) {
     start = true;
     PID.write(IDLE_SPEED);
     delay(IDLE_SPEED_TIME);
