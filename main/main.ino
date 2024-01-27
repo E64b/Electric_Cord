@@ -6,7 +6,7 @@
 #define PREPARE_TIME 3000     // Delay after start ms
 #define FLYING_TIME 180000    // Time flight ms
 #define TIME_STEP 20          // Time step for runing and breaking
-#define MAX_RPM 150           // Max rpm 0-100%
+#define MAX_RPM 150           // Max rpm 0-180%
 #define SENSOR_PIN A1         // RPM sensor pin
 #define ENG_PIN 9             // Engine pin
 #define IDLE_SPEED 20         // Min rpm
@@ -28,9 +28,12 @@ bool work = true;
 float voltage = 0;
 
 void setup() {
-  PID.attach(ENG_PIN, 1000, 2000);
-  PID.write(INIT_RPM);
-  delay(6000);
+  PID.attach(ENG_PIN);
+  delay(1000);
+  PID.writeMicroseconds(800);
+  delay(2000);
+  PID.writeMicroseconds(2300);
+  delay(4000);
   pinMode(SENSOR_PIN, INPUT);
   PID.write(curThrottle);
 }
