@@ -5,35 +5,38 @@
 /*SETUP*/
 #define PREPARE_TIME 3000     // Delay after start ms
 #define FLYING_TIME 180000    // Time flight ms
-#define TIME_STEP 30          // Time step for runing and breaking
-#define MAX_RPM 90            // Max rpm 0-100%
+#define TIME_STEP 20          // Time step for runing and breaking
+#define MAX_RPM 150           // Max rpm 0-100%
 #define SENSOR_PIN A1         // RPM sensor pin
 #define ENG_PIN 9             // Engine pin
 #define IDLE_SPEED 20         // Min rpm
-#define INIT_RPM 50           //Init rpm
+#define INIT_RPM 0            // Init rpm
 #define IDLE_SPEED_TIME 10000 // ms
+/*END SETUP*/
 
 Servo PID;
 
 uint8_t maxThrottle = MAX_RPM;
 uint8_t curThrottle = 0;
 uint32_t previousMillis = 0;
+
 bool start = false;
 bool breaking = false;
 bool delayStart = true;
 bool work = true;
+
 float voltage = 0;
 
 void setup() {
-  pinMode(SENSOR_PIN, INPUT);
   PID.attach(ENG_PIN, 1000, 2000);
   PID.write(INIT_RPM);
   delay(6000);
+  pinMode(SENSOR_PIN, INPUT);
   PID.write(curThrottle);
-  Serial.begin(9600);
 }
 
 void loop() {
+
   voltage = (float)(analogRead(SENSOR_PIN) * 5.0) / 1024;
 
   if (voltage > 0.05 && delayStart) {
