@@ -11,7 +11,7 @@ void setup() {
 }
 
 void loop() {
-  voltage = (float)(analogRead(pin) * 5.0) / 1024;
+  voltage = (float)(analogRead(SENSOR_PIN) * 5.0) / 1024;
   Serial.print("Voltage = ");
   Serial.println(voltage);
   delay(50);
