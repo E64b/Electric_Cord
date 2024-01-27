@@ -1,5 +1,5 @@
-#include <Arduino.h>
 #include <Servo.h>
+#include <Arduino.h>
 #include <inttypes.h>
 
 /*SETUP*/
@@ -20,6 +20,8 @@ uint32_t previousMillis = 0;
 bool start = false;
 bool breaking = false;
 bool delayStart = true;
+bool work = true;
+float voltage = 0;
 
 void setup() {
   pinMode(SENSOR_PIN, INPUT);
