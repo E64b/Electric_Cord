@@ -1,5 +1,5 @@
-#include <Servo.h>
 #include <Arduino.h>
+#include <Servo.h>
 #include <inttypes.h>
 
 /*SETUP*/
@@ -9,7 +9,8 @@
 #define MAX_RPM 90            // Max rpm 0-100%
 #define SENSOR_PIN A1         // RPM sensor pin
 #define ENG_PIN 9             // Engine pin
-#define IDLE_SPEED 10         // Min rpm
+#define IDLE_SPEED 20         // Min rpm
+#define INIT_RPM 50           //Init rpm
 #define IDLE_SPEED_TIME 10000 // ms
 
 Servo PID;
@@ -26,21 +27,14 @@ float voltage = 0;
 void setup() {
   pinMode(SENSOR_PIN, INPUT);
   PID.attach(ENG_PIN, 1000, 2000);
-  PID.write(10);
-  delay(5000);
+  PID.write(INIT_RPM);
+  delay(6000);
   PID.write(curThrottle);
   Serial.begin(9600);
-  delay(5000);
 }
 
 void loop() {
   voltage = (float)(analogRead(SENSOR_PIN) * 5.0) / 1024;
-
-  if (voltage < 0.05) {
-    Serial.print("Voltage = ");
-    Serial.println(voltage);
-    delay(50);
-  }
 
   if (voltage > 0.05 && delayStart) {
     start = true;
