@@ -19,13 +19,13 @@ void setup() {
   pinMode(SENSOR_PIN, INPUT);
   PID.attach(9, 1000, 2000);
   PID.write(curThrottle);
-  Serial.begin(9600);
+ // Serial.begin(9600);
 }
 
 void loop() {
   float voltage = (float)(analogRead(SENSOR_PIN) * 5.0) / 1024;
-  Serial.print("Voltage = ");
-  Serial.println(voltage);
+ // Serial.print("Voltage = ");
+  // Serial.println(voltage);
 
   if (delayStart) {
     PID.write(0);
@@ -33,7 +33,7 @@ void loop() {
     start = true;
   }
 
-  if (voltage < 2.5) {
+  if (voltage < 0.6) {
     if (start) {
       for (curThrottle = 0; curThrottle < maxThrottle; curThrottle++) {
         PID.write(curThrottle);
