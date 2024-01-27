@@ -7,7 +7,7 @@
 #define MAX_RPM 90         // Max rpm 0-100%
 #define SENSOR_PIN A1  //RPM sensor pin
 #define ENG_PIN 9     //Engine pin
-#define IDLE_SPEED 200 //min rpm
+#define IDLE_SPEED 10 //min rpm
 #defin IDLE_SPEED_TIME 10000 // ms
 
 Servo PID;
