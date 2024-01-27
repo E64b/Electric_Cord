@@ -5,7 +5,11 @@
 #define FLYING_TIME 180000 // Time flight ms
 #define TIME_STEP 30       // Time step for runing and breaking
 #define MAX_RPM 90         // Max rpm 0-100%
-#define SENSOR_PIN A1
+#define SENSOR_PIN A1  //RPM sensor pin
+#define ENG_PIN 9     //Engine pin
+#define IDLE_SPEED 200 //min rpm
+#defin IDLE_SPEED_TIME 10000 // ms
+
 Servo PID;
 
 uint8_t maxThrottle = MAX_RPM;
@@ -14,26 +18,29 @@ uint32_t previousMillis = 0;
 bool start;
 bool breaking = false;
 bool delayStart = true;
+float voltage = 0;
 
 void setup() {
   pinMode(SENSOR_PIN, INPUT);
-  PID.attach(9, 1000, 2000);
+  PID.attach(ENG_PIN, 1000, 2000);
   PID.write(curThrottle);
- // Serial.begin(9600);
+  Serial.begin(9600);
 }
 
 void loop() {
-  float voltage = (float)(analogRead(SENSOR_PIN) * 5.0) / 1024;
- // Serial.print("Voltage = ");
-  // Serial.println(voltage);
-
-  if (delayStart) {
-    PID.write(0);
-    delay(PREPARE_TIME);
-    start = true;
+  voltage = (float)(analogRead(SENSOR_PIN) * 5.0) / 1024;
+  
+  while (voltage < 0.6){
+  Serial.print("Voltage = ");
+  Serial.println(voltage);
+  voltage = (float)(analogRead(SENSOR_PIN) * 5.0) / 1024;
+  PID.write(1);
+  start = true;
   }
-
-  if (voltage < 0.6) {
+  
+    PID.write(IDLE_SPEED);
+    delay(IDLE_SPEED_TIME);
+  
     if (start) {
       for (curThrottle = 0; curThrottle < maxThrottle; curThrottle++) {
         PID.write(curThrottle);
@@ -58,5 +65,5 @@ void loop() {
     }
     start = false;
     delayStart = false;
-  }
+  
 }
